@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NutriSmart Planner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4CAF50',
+            secondary: '#8BC34A',
+            accent: '#CDDC39',
+            neutral: '#F5F5F5',
+            dark: '#333333',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.6.0",
+    "uuid": "https://esm.sh/uuid@^11.1.0",
+    "recharts": "https://esm.sh/recharts@^2.15.3",
+    "@google/genai": "https://esm.sh/@google/genai@^1.0.1"
+  }
+}
+</script>
+  <script async defer src="https://apis.google.com/js/api.js"></script>
+  <script async defer src="https://accounts.google.com/gsi/client"></script>
+</head>
+<body class="bg-neutral font-sans">
+  <div id="root"></div>
+
+  <script>
+    // --- START OF APP_CONFIG ---
+    // For local development ONLY. Do NOT commit this file with actual keys to version control if this part is filled.
+    // It's safer to keep your actual keys in api_keys_reference.txt and copy them here when you're developing.
+    // The application will use these values.
+    window.APP_CONFIG = {
+      API_KEY: "YOUR_GEMINI_API_KEY_HERE", // Replace with your actual Gemini API Key from api_keys_reference.txt
+      GOOGLE_CLIENT_ID: "YOUR_GOOGLE_CLIENT_ID_HERE" // Replace with your actual Google Client ID from api_keys_reference.txt
+      // GOOGLE_API_KEY removed as it's no longer needed for sign-in only
+    };
+
+    // Optional: Warn if placeholder values are detected
+    if (window.APP_CONFIG.API_KEY === "YOUR_GEMINI_API_KEY_HERE" ||
+        window.APP_CONFIG.GOOGLE_CLIENT_ID === "YOUR_GOOGLE_CLIENT_ID_HERE") {
+      console.warn(
+        "APP_CONFIG in index.html: API keys appear to be set to placeholder values. " +
+        "Please replace them with your actual keys (copied from your api_keys_reference.txt file) " +
+        "for the application to function correctly with AI and Google Sign-In features."
+      );
+    }
+    // --- END OF APP_CONFIG ---
+  </script>
+
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
+<link rel="stylesheet" href="index.css">
+<script src="index.tsx" type="module"></script>

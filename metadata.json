@@ -1,0 +1,5 @@
+{
+  "name": "NutriSmart Planner",
+  "description": "An AI-powered meal planning application that helps users create personalized nutrition plans based on their profiles, health conditions, and dietary preferences. Features include family mode, protein suggestions, baby-specific guidance, medication-aware planning, grocery lists, and an AI diet coach.",
+  "requestFramePermissions": []
+}

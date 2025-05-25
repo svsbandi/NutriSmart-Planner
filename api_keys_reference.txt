@@ -1,0 +1,6 @@
+# This file is for your reference to store API keys locally.
+# Copy these values into the window.APP_CONFIG section in index.html for local development.
+# DO NOT commit this file to version control if it contains your actual keys.
+
+API_KEY="YOUR_GEMINI_API_KEY"
+GOOGLE_CLIENT_ID="YOUR_GOOGLE_CLIENT_ID_FOR_SIGN_IN"
