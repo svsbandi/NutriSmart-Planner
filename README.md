@@ -63,37 +63,26 @@ NutriSmart Planner is an AI-powered meal planning application designed to help u
     cd nutrismart-planner
     ```
 
-2.  **API Keys & Environment Variables**:
-    This project requires API keys for Google Gemini and a Google Cloud Client ID (for Sign-In).
-    *   **`api_keys_reference.txt` File (For Your Reference)**:
-        *   Create a file named `api_keys_reference.txt` in the root of the project (a template is provided).
-        *   Store your API keys in this file. This file is ignored by Git (see `.gitignore`) and is **for your reference only**.
-            ```
-            # In api_keys_reference.txt:
-            # This file is for your reference to store API keys locally.
-            # Copy these values into the window.APP_CONFIG section in index.html for local development.
-            # DO NOT commit this file to version control if it contains your actual keys.
+2.  **Environment Variable Setup (API Keys)**:
+    This project requires API keys for Google Gemini and a Google Cloud Client ID for Google Sign-In. These are managed via environment variables for local development.
 
-            API_KEY="YOUR_GEMINI_API_KEY"
-            GOOGLE_CLIENT_ID="YOUR_GOOGLE_CLIENT_ID_FOR_SIGN_IN"
-            ```
-    *   **`index.html` Configuration (For Local Development)**:
-        *   Open the `index.html` file.
-        *   Locate the `<script>` block containing `window.APP_CONFIG`.
-        *   **Copy your actual API keys from your `api_keys_reference.txt` file** and replace the placeholder values (e.g., `"YOUR_GEMINI_API_KEY_HERE"`) within this `APP_CONFIG` block.
-            ```html
-            <script>
-              // --- START OF APP_CONFIG ---
-              window.APP_CONFIG = {
-                API_KEY: "YOUR_ACTUAL_GEMINI_API_KEY", // Copied from api_keys_reference.txt
-                GOOGLE_CLIENT_ID: "YOUR_ACTUAL_GOOGLE_CLIENT_ID" // Copied from api_keys_reference.txt
-              };
-              // --- END OF APP_CONFIG ---
-            </script>
-            ```
-        *   **IMPORTANT**: The `index.html` file with your actual keys in `APP_CONFIG` should **NOT** be committed to version control if your repository is public. Keep your keys secure. The `.gitignore` file is configured to ignore `api_keys_reference.txt`.
+    *   **Create a `.env` file**:
+        In the root directory of the project, create a new file named `.env`. This file will store your API keys.
 
-3.  **Google Cloud Project Setup (for Sign-In)**:
+    *   **Add API Keys to `.env`**:
+        Open the `.env` file and add your keys using the following format, replacing the placeholder values with your actual keys:
+        ```env
+        VITE_GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
+        VITE_GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID_HERE
+        ```
+        *   `VITE_GEMINI_API_KEY`: Your API key for Google Gemini (used for AI-powered features like meal planning and the AI coach).
+        *   `VITE_GOOGLE_CLIENT_ID`: Your Google Client ID (obtained from Google Cloud Console) for enabling Google Sign-In functionality.
+
+    *   **Security Note (`.gitignore`)**:
+        The `.env` file contains sensitive information and should **NEVER** be committed to version control. Ensure that `.env` is listed in your project's `.gitignore` file. Most Vite projects include this by default.
+        The `api_keys_reference.txt` file has been updated to provide instructions on this new `.env` setup and no longer stores keys.
+
+3.  **Google Cloud Project Setup (for Sign-In Client ID)**:
     *   Go to [Google Cloud Console](https://console.cloud.google.com/).
     *   Create a new project or select an existing one.
     *   Enable the **Google People API** (this is often implicitly used by `userinfo.email` and `userinfo.profile` scopes, but good to ensure it's available if specific issues arise). The Google Drive API is no longer needed.
@@ -102,34 +91,52 @@ NutriSmart Planner is an AI-powered meal planning application designed to help u
         *   Application type: **Web application**.
         *   Authorized JavaScript origins: Add your development server's origin (e.g., `http://localhost:3000`, `http://127.0.0.1:5500` - check the port your server uses).
         *   Authorized redirect URIs: Usually not strictly needed for this GIS token flow, but good practice to add your app's origin here too.
-    *   Copy the "OAuth 2.0 Client ID" into the `GOOGLE_CLIENT_ID` field in `index.html`'s `APP_CONFIG` (and your `api_keys_reference.txt` for reference).
-    *   An "API Key" (the one previously used for Drive services) is no longer required for the Google Sign-In functionality.
+    *   Copy the "OAuth 2.0 Client ID" and use it for the `VITE_GOOGLE_CLIENT_ID` value in your `.env` file.
+    *   An "API Key" from Google Cloud (like the one previously used for Drive services) is no longer required for the Google Sign-In functionality.
 
 4.  **Gemini API Key**:
     *   Visit [Google AI Studio](https://aistudio.google.com/app/apikey) to get your Gemini API Key.
-    *   Copy this key into the `API_KEY` field in `index.html`'s `APP_CONFIG` (and your `api_keys_reference.txt` for reference).
+    *   Use this key for the `VITE_GEMINI_API_KEY` value in your `.env` file.
 
-5.  **Serve the Application**:
-    *   Since this project uses ES modules directly and Tailwind via CDN, you can serve `index.html` using any simple static HTTP server.
-    *   One common way is using the "Live Server" extension in VS Code.
-    *   Alternatively, using Python's built-in HTTP server:
+5.  **Install Dependencies (if any)**:
+    *   This project primarily uses CDN-linked libraries (React, TailwindCSS). However, if any local development tools or linters were added that require `npm install`, run:
         ```bash
-        # For Python 3
-        python -m http.server
-        # For Python 2
-        # python -m SimpleHTTPServer
+        npm install # or yarn install
         ```
-    *   Open your browser to the local address provided by the server (e.g., `http://localhost:8000` or `http://127.0.0.1:5500`). The application should now be able to use the API keys you've set in `index.html`.
+    *   For the current setup, this step might not be strictly necessary if you are only using a static server.
+
+6.  **Serve the Application**:
+    *   Since this project uses ES modules directly, Tailwind via CDN, and now Vite-style environment variables (`import.meta.env`), you'll need a development server that supports this, or a build step.
+    *   **Using Vite (Recommended for `import.meta.env` compatibility)**:
+        If Vite is not already set up (e.g., `vite.config.ts` exists, `package.json` has Vite scripts):
+        ```bash
+        # If you don't have a package.json, create one: npm init -y
+        npm install vite
+        # Create a vite.config.ts if needed (see project structure for example)
+        # Add scripts to package.json:
+        # "dev": "vite",
+        # "build": "vite build",
+        # "preview": "vite preview"
+        npm run dev
+        ```
+    *   **Alternative (Simple HTTP Server - `import.meta.env` might not work directly)**:
+        If you use a simple server like Python's `http.server` or VS Code Live Server, `import.meta.env` will not be populated from the `.env` file. This project's code now relies on `import.meta.env`.
+        For the application to function correctly with API keys, **using Vite (or a similar tool that handles `.env` files for client-side JavaScript) is now necessary.**
+        ```bash
+        # Example with Python (API keys won't work without Vite or similar)
+        # python -m http.server
+        ```
+    *   Open your browser to the local address provided by Vite (usually `http://localhost:5173` or similar).
 
 ## How API Keys are Used
 
-*   The JavaScript code (in `constants.tsx` and `services/geminiService.ts`) is now configured to first look for API keys in `window.APP_CONFIG` (which you set in `index.html`).
-*   This method is suitable for local development in this simple CDN-based setup, as `process.env` is not automatically populated from a `.env`-style file without a build tool like Webpack or Vite.
-*   The `api_keys_reference.txt` file serves as your primary, secure storage location for these keys, and you copy them into `index.html` only when you're actively developing.
+*   The JavaScript code (in `services/geminiService.ts` and `constants.tsx`) is now configured to access API keys using `import.meta.env.VITE_GEMINI_API_KEY` and `import.meta.env.VITE_GOOGLE_CLIENT_ID`.
+*   This is a standard way to handle environment variables in projects built with Vite (or similar build tools). Vite automatically loads variables from your `.env` file and makes them available in your client-side code via the `import.meta.env` object.
+*   The `api_keys_reference.txt` file now only contains instructions for setting up your `.env` file.
 
 ## Important Notes
 
-*   **API Key Security**: The most crucial point is to **never commit your actual API keys** into `index.html` (or any other file) if that file is pushed to a public version control repository (like GitHub). Always use `api_keys_reference.txt` as your secure reference and be mindful of what you commit.
+*   **API Key Security**: The most crucial point is to **never commit your `.env` file** (or any file containing your actual API keys) to a version control repository. Ensure `.env` is in your `.gitignore` file.
 *   **Google Scopes**: The application requests `userinfo.email` and `userinfo.profile` scopes for Google Sign-In.
 *   **Error Handling**: The application includes basic error handling for API calls and UI feedback, but this can always be enhanced.
 

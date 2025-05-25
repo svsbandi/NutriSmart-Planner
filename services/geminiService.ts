@@ -3,24 +3,8 @@ import { GoogleGenAI, GenerateContentResponse, Chat, Part } from "@google/genai"
 import { UserProfile, WeeklyPlan, DailyPlan, Meal, MealItem, ProteinSource, BabyFoodSuggestion, MealPlanMode, ChatMessage, GroundingSource } from '../types';
 
 // --- API Key Configuration ---
-// Attempt to get from window.APP_CONFIG first (for local dev, set in index.html),
-// then process.env (for hypothetical build env or if set globally).
-// @ts-ignore
-const getConfigValue = (keyName) => {
-  // @ts-ignore
-  if (typeof window !== 'undefined' && window.APP_CONFIG && typeof window.APP_CONFIG[keyName] !== 'undefined') {
-    // @ts-ignore
-    return window.APP_CONFIG[keyName] === `YOUR_${keyName}_HERE` ? null : window.APP_CONFIG[keyName];
-  }
-  // @ts-ignore
-  if (typeof process !== 'undefined' && process.env && typeof process.env[keyName] !== 'undefined') {
-    // @ts-ignore
-    return process.env[keyName];
-  }
-  return null; // Default to null if not found or is placeholder
-};
-
-const API_KEY = getConfigValue('API_KEY');
+// API Key is now sourced from environment variables
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 let ai: GoogleGenAI | null = null;
 
 if (API_KEY) {
@@ -28,8 +12,8 @@ if (API_KEY) {
 } else {
   console.error(
     "Gemini API_KEY is not configured. AI features will not work. " +
-    "Please ensure API_KEY is set in the APP_CONFIG in index.html (for local development) " +
-    "or as an environment variable."
+    "Please ensure VITE_GEMINI_API_KEY is set in your .env file. " +
+    "Refer to README.md for more details."
   );
 }
 

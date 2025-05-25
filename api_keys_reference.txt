@@ -1,6 +1,30 @@
-# This file is for your reference to store API keys locally.
-# Copy these values into the window.APP_CONFIG section in index.html for local development.
-# DO NOT commit this file to version control if it contains your actual keys.
+# This file provides instructions on how to configure your API keys for local development.
+# These keys are essential for the application's AI features (Gemini) and Google Sign-In functionality.
 
-API_KEY="YOUR_GEMINI_API_KEY"
-GOOGLE_CLIENT_ID="YOUR_GOOGLE_CLIENT_ID_FOR_SIGN_IN"
+# --- Environment Variable Setup ---
+
+# 1. Create a new file named `.env` in the root directory of this project.
+#    The `.env` file is used to store environment-specific variables and is typically ignored by Git.
+
+# 2. Add the following lines to your `.env` file, replacing the placeholder values
+#    with your actual keys:
+
+VITE_GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
+VITE_GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID_HERE
+
+#    - VITE_GEMINI_API_KEY: Your API key for Google Gemini (for AI-powered features).
+#    - VITE_GOOGLE_CLIENT_ID: Your Google Client ID for enabling Google Sign-In.
+
+# 3. Important Security Note:
+#    Ensure that your `.env` file is listed in your project's `.gitignore` file.
+#    This prevents your sensitive API keys from being accidentally committed to version control.
+#    Vite projects usually include `.env` in `.gitignore` by default, but it's good practice to verify.
+#    DO NOT commit the `.env` file containing your actual keys to any public or private repository.
+
+# --- Old Configuration (index.html - Deprecated) ---
+# The previous method of placing API keys in a `window.APP_CONFIG` object within `index.html`
+# is no longer used. Please use the `.env` file method described above.
+# You can safely remove any `APP_CONFIG` script block from your local `index.html` if you haven't already.
+
+# This `api_keys_reference.txt` file itself can be safely committed to version control as it
+# no longer holds sensitive keys and only provides instructions.
