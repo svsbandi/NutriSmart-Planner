@@ -56,6 +56,7 @@ const initializeGapiClient = async () => {
 
 const initializeGisClient = () => {
   if (!GOOGLE_CLIENT_ID) {
+    console.error("Google Client ID not configured. Please ensure VITE_GOOGLE_CLIENT_ID is set in your .env file. Refer to README.md for details.");
      if (updateAuthStatusCallback) updateAuthStatusCallback(currentGoogleUser, gapiInited, false);
     return;
   }

@@ -43,28 +43,7 @@
 <body class="bg-neutral font-sans">
   <div id="root"></div>
 
-  <script>
-    // --- START OF APP_CONFIG ---
-    // For local development ONLY. Do NOT commit this file with actual keys to version control if this part is filled.
-    // It's safer to keep your actual keys in api_keys_reference.txt and copy them here when you're developing.
-    // The application will use these values.
-    window.APP_CONFIG = {
-      API_KEY: "YOUR_GEMINI_API_KEY_HERE", // Replace with your actual Gemini API Key from api_keys_reference.txt
-      GOOGLE_CLIENT_ID: "YOUR_GOOGLE_CLIENT_ID_HERE" // Replace with your actual Google Client ID from api_keys_reference.txt
-      // GOOGLE_API_KEY removed as it's no longer needed for sign-in only
-    };
-
-    // Optional: Warn if placeholder values are detected
-    if (window.APP_CONFIG.API_KEY === "YOUR_GEMINI_API_KEY_HERE" ||
-        window.APP_CONFIG.GOOGLE_CLIENT_ID === "YOUR_GOOGLE_CLIENT_ID_HERE") {
-      console.warn(
-        "APP_CONFIG in index.html: API keys appear to be set to placeholder values. " +
-        "Please replace them with your actual keys (copied from your api_keys_reference.txt file) " +
-        "for the application to function correctly with AI and Google Sign-In features."
-      );
-    }
-    // --- END OF APP_CONFIG ---
-  </script>
+  <!-- API keys and client IDs are now managed via environment variables. See README.md for details. -->
 
   <script type="module" src="/index.tsx"></script>
 </body>

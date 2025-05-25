@@ -6,25 +6,11 @@ import { UserProfile, AgeGroup, DietaryPreference, ActivityLevel } from './types
 export const APP_NAME = "NutriSmart Planner";
 
 // --- API Key Configuration ---
-// Attempt to get from window.APP_CONFIG first (for local dev, set in index.html),
-// then process.env (for hypothetical build env or if set globally).
-// @ts-ignore
-const getConfigValue = (keyName) => {
-  // @ts-ignore
-  if (typeof window !== 'undefined' && window.APP_CONFIG && typeof window.APP_CONFIG[keyName] !== 'undefined') {
-    // @ts-ignore
-    return window.APP_CONFIG[keyName] === `YOUR_${keyName}_HERE` ? null : window.APP_CONFIG[keyName];
-  }
-  // @ts-ignore
-  if (typeof process !== 'undefined' && process.env && typeof process.env[keyName] !== 'undefined') {
-    // @ts-ignore
-    return process.env[keyName];
-  }
-  return null; // Default to null if not found or is placeholder
-};
+// API Keys and Client IDs are now sourced from environment variables (e.g., .env file).
+// Refer to README.md for more details on setting these up.
 
-export const GOOGLE_CLIENT_ID = getConfigValue('GOOGLE_CLIENT_ID');
-// Note: The Gemini API_KEY is typically used directly in its service file.
+export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+// Note: The Gemini API_KEY is used directly in its service file (geminiService.ts).
 
 // Scopes for Google Sign-In:
 // userinfo.email and userinfo.profile: To get basic user info for display.
